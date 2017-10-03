@@ -205,6 +205,7 @@
     <Compile Include="Models\LaptopDbContext.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceDetail.cs" />
+    <Compile Include="Models\Mapping\PagedResult.cs" />
     <Compile Include="Models\Mapping\Response.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductAttribute.cs" />

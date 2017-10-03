@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace LaptopWebsite.Dao.DaoImp
@@ -15,6 +16,11 @@ namespace LaptopWebsite.Dao.DaoImp
         public BaseDaoImp()
         {
             this.context = DataBaseFactory.context;
+        }
+
+        public DbSet<T> Dbset(T entity)
+        {
+            return this.context.Set<T>();
         }
 
         public void delete(Int16 id)
@@ -64,6 +70,21 @@ namespace LaptopWebsite.Dao.DaoImp
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public PageResult<T> PageView(IQueryable<T> query, int page, int pageSize)
+        {
+            var result = new PageResult<T>();
+            result.CurrentPage = page;
+            result.PageSize = pageSize;
+            result.RowCount = query.Count();
+            var pageCount = (double)result.RowCount / pageSize;
+            result.PageCount = (int)Math.Ceiling(pageCount);
+            var skip = (page - 1) * pageSize;
+
+            result.Results = Queryable.Skip(query, skip).Take(pageSize).ToList();
+
+            return result;
         }
     }
 }

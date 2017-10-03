@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LaptopWebsite.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace LaptopWebsite.Dao
         void delete(Int16 id);
         void update(T entity);
         void save();
+        PageResult<T> PageView(IQueryable<T> query, int page, int pageSize);
 
     }
 }

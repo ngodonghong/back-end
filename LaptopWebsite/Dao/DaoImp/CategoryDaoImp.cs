@@ -12,6 +12,7 @@ namespace LaptopWebsite.Dao
 {
     public class CategoryDaoImp : BaseDaoImp<Category, Int16>, CategoryDao, IDisposable
     {
+        private Category category;
         public CategoryDaoImp() : base()
         {
 
@@ -49,6 +50,19 @@ namespace LaptopWebsite.Dao
         public void dispose()
         {
             base.Dispose();
+        }
+
+        public PageResult<Category> PageView(int pageIndex, int pageSize, string columnName)
+        {
+            var query = from c in base.Dbset(category) select c;
+            switch(columnName)
+            {
+                case "name": query = query.OrderBy(n => n.name);
+                break;
+            }
+
+            PageResult<Category> pv = base.PageView(query, pageIndex, pageSize);
+            return pv;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace LaptopWebsite.Dao.IDao
         void DeleteCategory(Int16 CategoryId);
         void UpdateCategory(Category category);
         void Save();
+        PageResult<Category> PageView(int pageIndex, int pageSize, string columnName);
         void Dispose();
     }
 }

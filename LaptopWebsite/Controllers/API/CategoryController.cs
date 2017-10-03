@@ -22,12 +22,14 @@ namespace LaptopWebsite.Controllers.API
         [Route("api/category/get-all")]
         public IHttpActionResult AllCategories()
         {
-            IEnumerable<Category> categories = this.categoryDao.GetCategory();
-            List<Category> listCategories = new List<Category>(categories);
+            var results = this.categoryDao.PageView(1, 10, "name");
             Response res = new Response();
             res.code = "200";
             res.status = "success";
-            res.results = listCategories.ToArray();
+            res.pageIndex = results.CurrentPage;
+            res.pageSize = results.PageSize;
+            res.total = results.RowCount;
+            res.results = results.Results;
             return Ok(res);
         }
 
@@ -68,12 +70,14 @@ namespace LaptopWebsite.Controllers.API
             this.categoryDao.InsertCategory(new Category(category.code,category.name));
             this.categoryDao.Save();
 
-            response = new Response("201", "Create Success", null);
+            response = new Response();
+            response.code = "201";
+            response.status = "Created";
 
             return Created("Created", response);
         }
 
-        //Update Category By
+        //Update Category
         [Route("api/category/update")]
         [HttpPut]
         public IHttpActionResult UpdateCategory(Category category)
